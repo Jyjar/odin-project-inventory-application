@@ -19,38 +19,48 @@
             <div class="pokémon-container">
                 <div class="name-container">
                     <div>
-                        <p>Gengar</p>
+                        <p>
+                            <% if (pokémon) { %> <%=
+                            pokémon.name.charAt(0).toUpperCase() +
+                            pokémon.name.slice(1) %> <% } else { %> ‎ <% } %>
+                        </p>
                     </div>
                 </div>
                 <div class="image-container">
-                    <img
-                        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png"
-                    />
+                    <% if (pokémon) { %>
+                    <img src="<%= pokémon.img_url %>" />
+                    <% } %>
                 </div>
                 <div class="type-container">
                     <div>
                         <p>Type:</p>
                         <div class="types">
-                            <div class="poison">
-                                <p>Poison</p>
+                            <% if (pokémon && pokémon.types) { %> <%
+                            pokémon.types.forEach(type => { %>
+                            <div class="<%= type.toLowerCase() %>">
+                                <p><%= type %></p>
                             </div>
-                            <div class="ghost">
-                                <p>Ghost</p>
-                            </div>
+                            <% }) %> <% } %>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="pokédex-container">
                 <% pokémons.forEach((pokémon) => { %>
-                <div class="pokémon-information-container">
+                <div
+                    class="pokémon-information-container"
+                    onclick="redirectToPokémon('<%= pokémon.pokémon_id %>')"
+                >
                     <div class="pokéball-container"></div>
                     <div class="information-container">
                         <div class="id">
                             <p><%= pokémon.pokémon_id %></p>
                         </div>
                         <div class="name">
-                            <p><%= pokémon.name.charAt(0).toUpperCase() + pokémon.name.slice(1) %></p>
+                            <p>
+                                <%= pokémon.name.charAt(0).toUpperCase() +
+                                pokémon.name.slice(1) %>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -61,25 +71,25 @@
             </div>
         </div>
         <script>
+            function redirectToPokémon(pokémonId) {
+                window.location.href = `/pokemon/${pokémonId}`;
+            }
+
             const pokedexContainer =
                 document.querySelector(".pokédex-container");
             const scrollContainer = document.querySelector(".scroll-container");
             const scrollThumb = document.querySelector(".scroll-thumb");
 
-            // Sync scroll-container with pokédex-container scrolling
             const syncScroll = (event) => {
                 const scrollHeight = pokedexContainer.scrollHeight;
                 const containerHeight = pokedexContainer.clientHeight;
 
-                // Calculate the thumb's max scroll position
                 const maxThumbScroll =
                     scrollContainer.clientHeight - scrollThumb.offsetHeight;
 
-                // Calculate the content scroll ratio
                 const scrollRatio =
                     maxThumbScroll / (scrollHeight - containerHeight);
 
-                // Update the scroll position of the Pokédex container
                 if (event.target === scrollThumb) {
                     const thumbTop = parseFloat(
                         getComputedStyle(scrollThumb).top
@@ -89,26 +99,21 @@
                 }
             };
 
-            // Update the scroll-thumb position as content scrolls
             const updateThumbPosition = () => {
                 const scrollHeight = pokedexContainer.scrollHeight;
                 const containerHeight = pokedexContainer.clientHeight;
 
-                // Calculate the thumb's max scroll position
                 const maxThumbScroll =
                     scrollContainer.clientHeight - scrollThumb.offsetHeight;
 
-                // Calculate the content scroll ratio
                 const scrollRatio =
                     maxThumbScroll / (scrollHeight - containerHeight);
 
-                // Update thumb position
                 scrollThumb.style.top = `${
                     pokedexContainer.scrollTop * scrollRatio
                 }px`;
             };
 
-            // Enable dragging the scroll-thumb
             let isDragging = false;
             scrollThumb.addEventListener(
                 "mousedown",
@@ -121,7 +126,6 @@
                 const containerRect = scrollContainer.getBoundingClientRect();
                 let newTop = e.clientY - containerRect.top;
 
-                // Clamp thumb position
                 newTop = Math.max(
                     0,
                     Math.min(
@@ -132,11 +136,9 @@
 
                 scrollThumb.style.top = `${newTop}px`;
 
-                // Trigger syncing
                 syncScroll({ target: scrollThumb });
             });
 
-            // Listen for native scrolling
             pokedexContainer.addEventListener("scroll", updateThumbPosition);
         </script>
     </body>
