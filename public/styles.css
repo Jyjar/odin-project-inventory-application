@@ -241,8 +241,7 @@ header {
     flex-grow: 1;
     height: 100%;
     border: solid 5px black;
-    overflow-y: auto; /* Enable vertical scrolling */
-    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow: hidden;
     position: relative;
     background-color: white;
 }
