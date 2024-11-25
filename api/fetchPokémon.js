@@ -15,4 +15,4 @@ async function fetchPokémon(pokémon) {
     }
 }
 
-export { fetchPokémon };
+module.exports = { fetchPokémon };
