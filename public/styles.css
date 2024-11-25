@@ -15,13 +15,38 @@ html, body {
 header {
     display: flex;
     justify-content: center;
-    background-image: linear-gradient(#e83032 40.00%, #c12026  40.00%, #c12026 60.00%, #911022  60.00%);
+    align-items: center;
+    background-image: linear-gradient(#e83032 40.00%, #c12026 40.00%, #c12026 60.00%, #911022 60.00%);
     border-bottom: solid 5px black;
     padding: 20px;
     color: white;
     text-shadow: 2px 2px 2px black;
     box-shadow: 0px 10px 10px grey;
+    position: relative;
     flex-shrink: 0;
+}
+
+.add-button {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-shadow: none;
+    box-shadow: 2px 2px 5px grey;
+}
+
+.add-button:hover {
+    background-color: #5870f8;
+    color: white;
+    text-shadow: 2px 2px 2px black;
 }
 
 .main-container {
@@ -40,6 +65,12 @@ header {
 .pokémon-container {
     display: flex;
     flex-direction: column;
+}
+
+.name-container,
+.type-container,
+.pokédex-container {
+    border-radius: 10px;
 }
 
 .name-container {
@@ -66,12 +97,76 @@ header {
 }
 
 .image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-grow: 6;
+    position: relative;
+}
+
+.image-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("game.svg");
+    background-size: 600px;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.2;
+    z-index: 1;
+}
+
+.image-container > img {
+    height: 300px;
+    width: auto;
+    position: relative;
+    z-index: 2;
 }
 
 .type-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-grow: 2;
     border: solid 5px black;
+    background-color: #e8302e;
+}
+
+.type-container > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background-color: white;
+    height: 100%;
+    width: 80%;
+    border: solid 5px #f49fa6;
+}
+
+.type-container > div > p {
+    font-size: 30px;
+}
+
+.types {
+    display: flex;
+    gap: 20px;
+}
+
+.types > div {
+    border: solid 5px black;
+    padding: 3px 20px 3px 20px;
+}
+
+.poison {
+    background-color: #b880c7;
+}
+
+.ghost {
+    background-color: #7c62a3;
 }
 
 .pokédex-container {
@@ -79,40 +174,143 @@ header {
     flex-direction: column;
     height: 100%;
     border: solid 5px black;
-    overflow-y: auto; /* Enable scrolling only within this container */
-    scrollbar-width: thin; /* Firefox scrollbar customization */
-    scrollbar-color: #c12026 #f49fa6; /* Custom colors for Firefox */
+    overflow: hidden; /* Hide the native scrollbar */
+    position: relative;
+    background-color: white;
 }
 
-.pokédex-container > h1 {
-    font-size: 1000px;
+.pokémon-information-container {
+    display: grid;
+    grid-template-columns: 3fr 6fr;
 }
 
-/* Custom scrollbar for WebKit browsers (Chrome, Edge, Safari) */
-.pokédex-container::-webkit-scrollbar {
-    width: 12px;
+.pokémon-information-container:hover {
+    outline: solid 5px black;
+    z-index: 3;
+    cursor: pointer;
 }
 
-.pokédex-container::-webkit-scrollbar-track {
-    background: #f49fa6; /* Track color */
+.pokéball-container {
+    background-image: url("game.svg");
+    background-size: 60px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #e8302e;
+    border-right: solid 10px #f49fa6;
 }
 
-.pokédex-container::-webkit-scrollbar-thumb {
-    background-color: #c12026; /* Thumb color */
-    border-radius: 6px; /* Rounded edges */
-    border: 3px solid #f49fa6; /* Adds spacing around thumb */
+.information-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background-color: white;
+    font-size: 40px;
+    padding: 10px 10px 10px 10px;
 }
 
 .scroll-container {
     display: flex;
-    align-items: center;
+    justify-self: center;
+    align-self: center;
     justify-content: center;
-    background-color: #f4f4f4;
+    position: relative;
+    height: 100%;
     border: solid 5px black;
+    border-radius: 5px;
+    width: 20px;
+    background-color: white;
+}
+
+.scroll-thumb {
+    position: absolute;
+    width: 100%;
+    background-color: #5870f8;
+    height: 20%;
+    cursor: pointer;
+    border: solid 5px white;
+    outline: solid 5px black;
+    width: 70px;
+    border-radius: 10px;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+    background-image:
+        linear-gradient(to right, grey 2px, transparent 1px),
+        linear-gradient(to bottom, grey 2px, transparent 1px);
+    background-size: 3rem 3rem;
+    background-position: center center;
+}
+
+.add-pokemon-form {
+    background-color: white;
+    border: solid 5px black;
+    border-radius: 10px;
+    padding: 40px 60px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    max-width: 550px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+input {
+    border: solid 3px #c12026;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #5870f8;
+    box-shadow: 0 0 7px #5870f8;
+}
+
+.submit-button {
+    background-color: #e83032;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 2px 2px 6px grey;
+}
+
+.submit-button:hover {
+    background-color: #c12026;
 }
 
 @media (max-width: 1500px) {
     .name-container > div > p {
+        font-size: 30px;
+    }
+
+    .pokéball-container {
+        background-size: 40px;
+    }
+
+    .information-container {
         font-size: 30px;
     }
 }
@@ -126,5 +324,13 @@ header {
 @media (max-width: 700px) {
     .name-container > div > p {
         font-size: 15px;
+    }
+
+    .pokéball-container {
+        background-size: 30px;
+    }
+
+    .information-container {
+        font-size: 20px;
     }
 }

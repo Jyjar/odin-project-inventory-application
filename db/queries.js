@@ -5,6 +5,12 @@ async function getAllPokémons() {
     return rows;
 }
 
+async function insertPokémon(name) {
+    // Get id, url and types from api
+    // Insert it into the database
+    await pool.query("INSERT INTO pok")
+}
+
 module.exports = {
     getAllPokémons,
 };

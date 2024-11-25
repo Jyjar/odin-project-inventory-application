@@ -1,36 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokédex</title>
-    <link rel="stylesheet" href="/styles.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-</head>
-<body>
-    <header>
-        <h1><%= title %></h1>
-    </header>
-    <div class="main-container">
-        <div class="pokémon-container">
-            <div class="name-container">
-                <div>
-                    <p>Charmander</p>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Pokédex</title>
+        <link rel="stylesheet" href="/styles.css" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <header>
+            <h1><%= title %></h1>
+            <a class="add-button" href="/add-pokemon">Add Pokémon</a>
+        </header>
+        <div class="main-container">
+            <div class="pokémon-container">
+                <div class="name-container">
+                    <div>
+                        <p>Gengar</p>
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img
+                        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png"
+                    />
+                </div>
+                <div class="type-container">
+                    <div>
+                        <p>Type:</p>
+                        <div class="types">
+                            <div class="poison">
+                                <p>Poison</p>
+                            </div>
+                            <div class="ghost">
+                                <p>Ghost</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="image-container">
-
+            <div class="pokédex-container">
+                <% pokémons.forEach((pokémon) => { %>
+                <div class="pokémon-information-container">
+                    <div class="pokéball-container"></div>
+                    <div class="information-container">
+                        <div class="id">
+                            <p><%= pokémon.pokémon_id %></p>
+                        </div>
+                        <div class="name">
+                            <p><%= pokémon.name.charAt(0).toUpperCase() + pokémon.name.slice(1) %></p>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
             </div>
-            <div class="type-container">
-
+            <div class="scroll-container">
+                <div class="scroll-thumb"></div>
             </div>
         </div>
-        <div class="pokédex-container">
-            <h1>dwadawdwadawddddddddddddddddddddd</h1>
-        </div>
-        <div class="scroll-container">
+        <script>
+            const pokedexContainer =
+                document.querySelector(".pokédex-container");
+            const scrollContainer = document.querySelector(".scroll-container");
+            const scrollThumb = document.querySelector(".scroll-thumb");
 
-        </div>
-    </div>
-</body>
+            // Sync scroll-container with pokédex-container scrolling
+            const syncScroll = (event) => {
+                const scrollHeight = pokedexContainer.scrollHeight;
+                const containerHeight = pokedexContainer.clientHeight;
+
+                // Calculate the thumb's max scroll position
+                const maxThumbScroll =
+                    scrollContainer.clientHeight - scrollThumb.offsetHeight;
+
+                // Calculate the content scroll ratio
+                const scrollRatio =
+                    maxThumbScroll / (scrollHeight - containerHeight);
+
+                // Update the scroll position of the Pokédex container
+                if (event.target === scrollThumb) {
+                    const thumbTop = parseFloat(
+                        getComputedStyle(scrollThumb).top
+                    );
+                    const contentScrollTop = thumbTop / scrollRatio;
+                    pokedexContainer.scrollTop = contentScrollTop;
+                }
+            };
+
+            // Update the scroll-thumb position as content scrolls
+            const updateThumbPosition = () => {
+                const scrollHeight = pokedexContainer.scrollHeight;
+                const containerHeight = pokedexContainer.clientHeight;
+
+                // Calculate the thumb's max scroll position
+                const maxThumbScroll =
+                    scrollContainer.clientHeight - scrollThumb.offsetHeight;
+
+                // Calculate the content scroll ratio
+                const scrollRatio =
+                    maxThumbScroll / (scrollHeight - containerHeight);
+
+                // Update thumb position
+                scrollThumb.style.top = `${
+                    pokedexContainer.scrollTop * scrollRatio
+                }px`;
+            };
+
+            // Enable dragging the scroll-thumb
+            let isDragging = false;
+            scrollThumb.addEventListener(
+                "mousedown",
+                () => (isDragging = true)
+            );
+            document.addEventListener("mouseup", () => (isDragging = false));
+            document.addEventListener("mousemove", (e) => {
+                if (!isDragging) return;
+
+                const containerRect = scrollContainer.getBoundingClientRect();
+                let newTop = e.clientY - containerRect.top;
+
+                // Clamp thumb position
+                newTop = Math.max(
+                    0,
+                    Math.min(
+                        newTop,
+                        scrollContainer.clientHeight - scrollThumb.offsetHeight
+                    )
+                );
+
+                scrollThumb.style.top = `${newTop}px`;
+
+                // Trigger syncing
+                syncScroll({ target: scrollThumb });
+            });
+
+            // Listen for native scrolling
+            pokedexContainer.addEventListener("scroll", updateThumbPosition);
+        </script>
+    </body>
 </html>
