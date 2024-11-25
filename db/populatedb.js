@@ -9,24 +9,52 @@ CREATE TABLE IF NOT EXISTS pokédex (
     img_url VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS types (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
 CREATE TABLE IF NOT EXISTS pokémon_types (
     id SERIAL PRIMARY KEY,
     pokédex_id INT REFERENCES pokédex(id) ON DELETE CASCADE,
-    type VARCHAR(50) NOT NULL
+    type_id INT REFERENCES types(id) ON DELETE CASCADE
 );
 
--- Insert Pokémon and their types
+-- Insert all types into the types table
+INSERT INTO types (name)
+VALUES 
+    ('Normal'), 
+    ('Fire'), 
+    ('Water'), 
+    ('Grass'), 
+    ('Rock'), 
+    ('Fighting'), 
+    ('Psychic'), 
+    ('Ghost'), 
+    ('Bug'), 
+    ('Poison'), 
+    ('Flying'), 
+    ('Electric'), 
+    ('Ground'), 
+    ('Ice'), 
+    ('Dragon'), 
+    ('Dark'), 
+    ('Steel'), 
+    ('Fairy')
+ON CONFLICT DO NOTHING;
+
+-- Example: Insert Gengar with types (Ghost, Poison)
 DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pokédex WHERE pokémon_id = 94) THEN
         INSERT INTO pokédex (pokémon_id, name, img_url)
         VALUES (94, 'gengar', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png');
 
-        INSERT INTO pokémon_types (pokédex_id, type)
-        SELECT id, 'ghost' FROM pokédex WHERE pokémon_id = 94;
+        INSERT INTO pokémon_types (pokédex_id, type_id)
+        SELECT id, (SELECT id FROM types WHERE name = 'Ghost') FROM pokédex WHERE pokémon_id = 94;
 
-        INSERT INTO pokémon_types (pokédex_id, type)
-        SELECT id, 'poison' FROM pokédex WHERE pokémon_id = 94;
+        INSERT INTO pokémon_types (pokédex_id, type_id)
+        SELECT id, (SELECT id FROM types WHERE name = 'Poison') FROM pokédex WHERE pokémon_id = 94;
     END IF;
 END $$;
 `;

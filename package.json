@@ -1,7 +1,7 @@
 {
   "name": "odin-project-inventory-application",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple Express app using PostgreSQL, ejs, dotenv used to showcase skills in: * PostgreSQL database * Creating a pokédex",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

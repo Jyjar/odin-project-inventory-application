@@ -1,0 +1,130 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Press Start 2P', sans-serif;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    background-image: linear-gradient(#e83032 40.00%, #c12026  40.00%, #c12026 60.00%, #911022  60.00%);
+    border-bottom: solid 5px black;
+    padding: 20px;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+    box-shadow: 0px 10px 10px grey;
+    flex-shrink: 0;
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: 6fr 6fr 1fr;
+    gap: 10px;
+    height: 100%;
+    background-image:
+        linear-gradient(to right, grey 2px, transparent 1px),
+        linear-gradient(to bottom, grey 2px, transparent 1px);
+    background-size: 3rem 3rem;
+    background-position: center center;
+    padding: 15px 10px 15px 10px;
+}
+
+.pokémon-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.name-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    border: solid 5px black;
+    background-color: #e8302e;
+}
+
+.name-container > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    height: 100%;
+    width: 80%;
+    border: solid 5px #f49fa6;
+}
+
+.name-container > div > p {
+    font-size: 50px;
+}
+
+.image-container {
+    flex-grow: 6;
+}
+
+.type-container {
+    flex-grow: 2;
+    border: solid 5px black;
+}
+
+.pokédex-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: solid 5px black;
+    overflow-y: auto; /* Enable scrolling only within this container */
+    scrollbar-width: thin; /* Firefox scrollbar customization */
+    scrollbar-color: #c12026 #f49fa6; /* Custom colors for Firefox */
+}
+
+.pokédex-container > h1 {
+    font-size: 1000px;
+}
+
+/* Custom scrollbar for WebKit browsers (Chrome, Edge, Safari) */
+.pokédex-container::-webkit-scrollbar {
+    width: 12px;
+}
+
+.pokédex-container::-webkit-scrollbar-track {
+    background: #f49fa6; /* Track color */
+}
+
+.pokédex-container::-webkit-scrollbar-thumb {
+    background-color: #c12026; /* Thumb color */
+    border-radius: 6px; /* Rounded edges */
+    border: 3px solid #f49fa6; /* Adds spacing around thumb */
+}
+
+.scroll-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+    border: solid 5px black;
+}
+
+@media (max-width: 1500px) {
+    .name-container > div > p {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 900px) {
+    .name-container > div > p {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 700px) {
+    .name-container > div > p {
+        font-size: 15px;
+    }
+}
